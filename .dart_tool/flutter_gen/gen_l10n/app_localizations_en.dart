@@ -14,6 +14,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textUserName => 'Name is required';
 
   @override
+  String get textEditProfile => 'Edit Profile';
+
+  @override
+  String get textWelcome => 'Welcome to users zone!';
+
+  @override
   String get textLogin => 'Login';
 
   @override

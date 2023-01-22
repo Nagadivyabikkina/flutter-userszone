@@ -66,7 +66,10 @@ class BaseScaffold extends StatelessWidget {
                   child: bottomNavigationBarWidget!)
               : const SizedBox(),
           appBar: AppBar(
-              title: Text(appBarTitle ?? ''),
+              title: Text(
+                appBarTitle ?? '',
+              ),
+              centerTitle: isCenterLabel,
               backgroundColor: context.color.success1),
           body: SafeArea(child: body),
           floatingActionButton: floatingButton,

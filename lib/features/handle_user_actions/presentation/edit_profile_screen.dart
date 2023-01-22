@@ -71,6 +71,7 @@ class _EditUserScreenState extends ConsumerState<EditUserScreen> {
           context: context, ref: ref, userId: widget.args.userId!);
     }
     return BaseScaffold(
+      appBarTitle: AppLocalizations.of(context)!.textEditProfile,
       bottomNavigationBarWidget: ContinueButtonWidget(
           isEnableContinueButton: isEnableContinueButton,
           onTapAction: onContinueButtonTap),

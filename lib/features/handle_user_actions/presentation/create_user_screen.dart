@@ -47,6 +47,8 @@ class _CreateUserScreenState extends ConsumerState<CreateUserScreen> {
       userEmail: _userEmail,
     );
     return BaseScaffold(
+        appBarTitle: AppLocalizations.of(context)!.textWelcome,
+        isCenterLabel: true,
         bottomNavigationBarWidget: ContinueButtonWidget(
           isEnableContinueButton: isEnableContinueButton,
           onTapAction: onContinueButtonTap,

@@ -104,6 +104,18 @@ abstract class AppLocalizations {
   /// **'Name is required'**
   String get textUserName;
 
+  /// No description provided for @textEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get textEditProfile;
+
+  /// No description provided for @textWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to users zone!'**
+  String get textWelcome;
+
   /// No description provided for @textLogin.
   ///
   /// In en, this message translates to:

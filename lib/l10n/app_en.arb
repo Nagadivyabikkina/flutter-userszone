@@ -4,6 +4,8 @@
     "description": "User email address"
   },
   "textUserName": "Name is required",
+  "textEditProfile": "Edit Profile",
+  "textWelcome": "Welcome to users zone!",
   "textLogin": "Login",
   "textCreateUser": "Create User",
   "textLoginError": "Login Error",
