@@ -1,0 +1,4 @@
+#Sun Jan 22 18:19:00 EST 2023
+base.0=/Users/nagsdivyabikkina/Documents/InterviewProjects/userszone/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

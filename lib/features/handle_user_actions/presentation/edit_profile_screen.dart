@@ -1,19 +1,14 @@
-import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:userdatabase/features/core/utils/extensions.dart';
 import 'package:userdatabase/features/handle_user_actions/application/application.dart';
+import 'package:userdatabase/features/handle_user_actions/presentation/widgets/continue_button_widget.dart';
 
-import '../../../core/app_initializers.dart';
-import '../../../router/app_navigator_service.dart';
 import '../../core/widgets/base_scaffold.dart';
-import '../../core/widgets/custom_bottom_sheet.dart';
-import '../../core/widgets/elevated_button_widget.dart';
-import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/text_field_widget.dart';
-import '../../users/application/application.dart';
-import '../application/state/update_user_state.dart';
+import 'edit_profile_screen_listener.dart';
+import 'widgets/text_avatar_widget.dart';
 
 class EditUserScreenArgs {
   const EditUserScreenArgs(
@@ -71,75 +66,21 @@ class _EditUserScreenState extends ConsumerState<EditUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    listenToUpdateUserSuccess();
+    if (widget.args.userId != null) {
+      listenToUpdateUserSuccess(
+          context: context, ref: ref, userId: widget.args.userId!);
+    }
     return BaseScaffold(
-        bottomNavigationBarWidget: _fnContinueButton(),
-        body: ListView(children: <Widget>[
+      bottomNavigationBarWidget: ContinueButtonWidget(
+          isEnableContinueButton: isEnableContinueButton,
+          onTapAction: onContinueButtonTap),
+      body: ListView(
+        children: <Widget>[
           Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[const SizedBox(height: 50), profileWidget()]),
-        ]));
-  }
-
-  Widget _fnContinueButton() {
-    return ElevatedButtonWidget(
-        label: AppLocalizations.of(context)!.textSaveChanges,
-        onTap: isEnableContinueButton
-            ? () {
-                ref.refresh(updateUserStateProvider.notifier);
-                ref.read(updateUserStateProvider.notifier).updateUser(
-                      email: _userEmail.text,
-                      gender: select,
-                      name: _userFullName.text,
-                      userId: widget.args.userId!,
-                    );
-              }
-            : () {});
-  }
-
-  void listenToUpdateUserSuccess() {
-    ref.listen(updateUserStateProvider,
-        (UpdateUserState? previous, UpdateUserState? next) {
-      if (next != null) {
-        getIt<AppNavigationService>().showLoader(context);
-        next.maybeWhen(
-            updateSuccess: () {
-              ref.refresh(fetchUserStateProvider.notifier);
-              ref.read(usersStateProvider.notifier).getUsersList();
-              ref
-                  .read(fetchUserStateProvider.notifier)
-                  .fetchUserById(widget.args.userId!);
-              getIt<AppNavigationService>().hideLoader(context);
-              getIt<AppNavigationService>().popRoute(context);
-            },
-            orElse: () {},
-            error: () => showRegistrationFailed());
-      }
-    });
-  }
-
-  void showRegistrationFailed() {
-    getIt<AppNavigationService>().hideLoader(context);
-    CustomBottomSheet.show(
-      context,
-      title: AppLocalizations.of(context)!.textLoginError,
-      isSuccess: false,
-      body: Builder(builder: (BuildContext ctx) {
-        return Text(
-          AppLocalizations.of(context)!.textInvalidCredentials,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
-        );
-      }),
-      primaryButton: Builder(
-        builder: (BuildContext ctx) {
-          return PrimaryButton(
-            label: AppLocalizations.of(context)!.textCancel,
-            onTap: () async {
-              Navigator.pop(ctx);
-            },
-          );
-        },
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[const SizedBox(height: 50), profileWidget()],
+          ),
+        ],
       ),
     );
   }
@@ -148,14 +89,7 @@ class _EditUserScreenState extends ConsumerState<EditUserScreen> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(children: <Widget>[
-        TextAvatar(
-          size: 80,
-          shape: Shape.Circular,
-          text: widget.args.name,
-          numberLetters: 2,
-          fontSize: 30,
-          upperCase: true,
-        ),
+        TextAvatarWidget(avatarText: widget.args.name),
         const SizedBox(height: 46),
         Form(
           key: _formKey,
@@ -237,6 +171,16 @@ class _EditUserScreenState extends ConsumerState<EditUserScreen> {
     return ClipOval(
         child: Container(
             padding: EdgeInsets.all(padding), color: color, child: child));
+  }
+
+  void onContinueButtonTap() {
+    ref.refresh(updateUserStateProvider.notifier);
+    ref.read(updateUserStateProvider.notifier).updateUser(
+          email: _userEmail.text,
+          gender: select,
+          name: _userFullName.text,
+          userId: widget.args.userId!,
+        );
   }
 
   void _onChangeForm() {

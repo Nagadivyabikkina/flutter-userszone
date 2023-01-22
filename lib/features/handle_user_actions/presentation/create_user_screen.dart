@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:userdatabase/features/core/utils/extensions.dart';
+import 'package:userdatabase/features/handle_user_actions/presentation/widgets/continue_button_widget.dart';
 
-import '../../../core/app_initializers.dart';
-import '../../../router/app_navigator_service.dart';
-import '../../../router/routes.dart';
 import '../../core/widgets/base_scaffold.dart';
-import '../../core/widgets/custom_bottom_sheet.dart';
-import '../../core/widgets/elevated_button_widget.dart';
-import '../../core/widgets/primary_button.dart';
 import '../../core/widgets/text_field_widget.dart';
 import '../application/application.dart';
-import '../application/state/create_user_state.dart';
+import 'create_user_screen_listener.dart';
 
 class CreateUserScreen extends ConsumerStatefulWidget {
   const CreateUserScreen({Key? key}) : super(key: key);
@@ -45,42 +40,27 @@ class _CreateUserScreenState extends ConsumerState<CreateUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    listenToLoginSuccess();
+    listenToLoginSuccess(
+      context: context,
+      ref: ref,
+      username: _username,
+      userEmail: _userEmail,
+    );
     return BaseScaffold(
-        bottomNavigationBarWidget: _fnContinueButton(), body: loginWidget());
+        bottomNavigationBarWidget: ContinueButtonWidget(
+          isEnableContinueButton: isEnableContinueButton,
+          onTapAction: onContinueButtonTap,
+        ),
+        body: loginWidget());
   }
 
-  Widget _fnContinueButton() {
-    return ElevatedButtonWidget(
-        label: AppLocalizations.of(context)!.textContinue,
-        isDisabled: !isEnableContinueButton,
-        onTap: isEnableContinueButton
-            ? () {
-                ref.refresh(createUserStateProvider.notifier);
-                ref.read(createUserStateProvider.notifier).createUser(
-                      email: _userEmail.text,
-                      name: _username.text,
-                      gender: select,
-                    );
-              }
-            : () {});
-  }
-
-  void listenToLoginSuccess() {
-    ref.listen(createUserStateProvider,
-        (CreateUserState? previous, CreateUserState? next) {
-      if (next != null) {
-        next.maybeWhen(
-            userCreated: () {
-              _userEmail.clear();
-              _username.clear();
-              getIt<AppNavigationService>()
-                  .pushNamedRoute(Routes.usersScreen, context: context);
-            },
-            orElse: () {},
-            error: () => showLoginFailed());
-      }
-    });
+  void onContinueButtonTap() {
+    ref.refresh(createUserStateProvider.notifier);
+    ref.read(createUserStateProvider.notifier).createUser(
+          email: _userEmail.text,
+          name: _username.text,
+          gender: select,
+        );
   }
 
   Row addRadioButton(int btnValue, String title) {
@@ -99,31 +79,6 @@ class _CreateUserScreenState extends ConsumerState<CreateUserScreen> {
         ),
         Text(title)
       ],
-    );
-  }
-
-  void showLoginFailed() {
-    CustomBottomSheet.show(
-      context,
-      title: AppLocalizations.of(context)!.textLoginError,
-      isSuccess: false,
-      body: Builder(builder: (BuildContext ctx) {
-        return Text(
-          AppLocalizations.of(context)!.textInvalidCredentials,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle2,
-        );
-      }),
-      primaryButton: Builder(
-        builder: (BuildContext ctx) {
-          return PrimaryButton(
-            label: AppLocalizations.of(context)!.textCancel,
-            onTap: () async {
-              Navigator.pop(ctx);
-            },
-          );
-        },
-      ),
     );
   }
 

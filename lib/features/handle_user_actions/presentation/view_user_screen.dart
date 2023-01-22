@@ -1,4 +1,3 @@
-import 'package:colorize_text_avatar/colorize_text_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +11,7 @@ import 'package:userdatabase/router/app_navigator_service.dart';
 import '../../../core/app_initializers.dart';
 import '../../../router/routes.dart';
 import '../../core/widgets/base_scaffold.dart';
+import 'widgets/text_avatar_widget.dart';
 
 class ViewUserScreenArgs {
   const ViewUserScreenArgs({
@@ -61,83 +61,28 @@ class _ViewUserScreenState extends ConsumerState<ViewUserScreen>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: 50),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.red.shade300,
-                minRadius: 35.0,
-                child: const Icon(
-                  Icons.email,
-                  size: 30.0,
-                ),
-              ),
-              Center(
-                  child: Stack(children: [
-                TextAvatar(
-                  size: 80,
-                  shape: Shape.Circular,
-                  text: userInfo.name,
-                  numberLetters: 2,
-                  fontSize: 30,
-                  upperCase: true,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: editIcon(userInfo),
-                )
-              ])),
-              CircleAvatar(
-                backgroundColor: Colors.red.shade300,
-                minRadius: 35.0,
-                child: const Icon(
-                  Icons.message,
-                  size: 30.0,
-                ),
-              ),
-            ],
-          ),
+          buildUserAvatarWithBackground(userInfo),
           const SizedBox(
             height: 30,
           ),
-          Text(
-            'Name: ${userInfo.name}',
-            style: context.style.subhead1.copyWith(fontSize: 15),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Email : ${userInfo.email}',
-            style: context.style.subhead1.copyWith(fontSize: 15),
-          ),
+          buildTextWidget(title: 'Name', info: userInfo.name),
+          buildTextWidget(title: 'Email', info: userInfo.email),
           addRadioButton(userInfo.gender),
           const SizedBox(height: 5),
-          Text(widget.args?.title ?? '', style: context.style.subhead1),
+          buildTextWidget(info: widget.args?.title, fontSize: 18),
           const SizedBox(height: 10),
           Divider(color: context.color.tertiary5, endIndent: 15, indent: 15),
-          Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(children: [
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!.textAbout,
-                      textAlign: TextAlign.left,
-                      style: context.style.subhead4,
-                    )),
-                const SizedBox(height: 10),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!.textAboutFlutterDeveloper,
-                      textAlign: TextAlign.left,
-                      style: context.style.body4
-                          .copyWith(color: context.color.tertiary5),
-                    )),
-              ])),
+          buildAboutSection(),
         ],
       ),
     ]);
+  }
+
+  Widget buildTextWidget({String? info, String? title, double fontSize = 15}) {
+    return Text(
+      title != null ? '$title: $info' : (info ?? ''),
+      style: context.style.subhead1.copyWith(fontSize: fontSize),
+    );
   }
 
   Row addRadioButton(String gender) {
@@ -156,6 +101,62 @@ class _ViewUserScreenState extends ConsumerState<ViewUserScreen>
         )
       ],
     );
+  }
+
+  Widget buildUserAvatarWithBackground(UserInfoEntity userInfo) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        CircleAvatar(
+          backgroundColor: Colors.red.shade300,
+          minRadius: 35.0,
+          child: const Icon(
+            Icons.email,
+            size: 30.0,
+          ),
+        ),
+        Center(
+            child: Stack(children: [
+          TextAvatarWidget(avatarText: userInfo.name),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: editIcon(userInfo),
+          )
+        ])),
+        CircleAvatar(
+          backgroundColor: Colors.red.shade300,
+          minRadius: 35.0,
+          child: const Icon(
+            Icons.message,
+            size: 30.0,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildAboutSection() {
+    return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(children: [
+          Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                AppLocalizations.of(context)!.textAbout,
+                textAlign: TextAlign.left,
+                style: context.style.subhead4,
+              )),
+          const SizedBox(height: 10),
+          Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                AppLocalizations.of(context)!.textAboutFlutterDeveloper,
+                textAlign: TextAlign.left,
+                style: context.style.body4
+                    .copyWith(color: context.color.tertiary5),
+              )),
+        ]));
   }
 
   Widget editIcon(UserInfoEntity userInfo) {
