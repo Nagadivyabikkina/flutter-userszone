@@ -1,0 +1,83 @@
+import 'dart:ui';
+
+import 'color_scheme.dart';
+
+class AppColorScheme {
+  static ColorSchemeData get light {
+    return ColorSchemeData(
+      brand: const Color(0xFFEB0A1E),
+      primary1: const Color(0xFFEB0A1E),
+      primary2: const Color(0xFFFFF2F2),
+      secondary1: const Color(0xFF5B82F9),
+      secondary2: const Color(0xFFEFF2FE),
+      tertiary0: const Color(0xFF000000),
+      tertiary3: const Color(0xFF262626),
+      tertiary5: const Color(0xFF595959),
+      tertiary7: const Color(0xFF959595),
+      tertiary10: const Color(0xFFDEDEDE),
+      tertiary12: const Color(0xFFFAFAFA),
+      tertiary15: const Color(0xFFFFFFFF),
+      tile1: const Color(0xFFFFFFFF),
+      tile2: const Color(0xFFFAFAFA),
+      tile3: const Color(0xFFFFFFFF),
+      tile5: const Color(0xFFFAFAFA),
+      primaryButton1: const Color(0xFFFFFFFF),
+      primaryButton2: const Color(0xFF262626),
+      button1a: const Color(0xFFFFFFFF),
+      button1b: const Color(0xFF262626),
+      button2a: const Color(0xFF262626),
+      button2b: const Color(0xFFFAFAFA),
+      button2c: const Color(0xFFDEDEDE),
+      button2d: const Color(0xFFFAFAFA),
+      button3a: const Color(0xFFFFFFFF),
+      button3b: const Color(0xFF5B82F9),
+      button5a: const Color(0xFF959595),
+      button5b: const Color(0xFFF1F1F1),
+      successPrimary1: const Color(0xFF43CD93),
+      success1: const Color(0xFF5B82F9),
+      success2: const Color(0xFFEFF2FE),
+      error: const Color(0xFFEB0A1E),
+      shadow: const Color.fromRGBO(0, 0, 0, 0.05),
+      outLine1: const Color(0xffDEDEDE),
+    );
+  }
+
+  static ColorSchemeData get dark {
+    return ColorSchemeData(
+      brand: const Color(0xFFEB0A1E),
+      primary1: const Color(0xFFEB0A1E),
+      primary2: const Color(0xFF111112),
+      secondary1: const Color(0xFF5B82F9),
+      secondary2: const Color(0xFF111112),
+      tertiary0: const Color(0xFFFFFFFF),
+      tertiary3: const Color(0xFFFAFAFA),
+      tertiary5: const Color(0xFFA6A6A6),
+      tertiary7: const Color(0xFF959595),
+      tertiary10: const Color(0xFF202226),
+      tertiary12: const Color(0xFF111112),
+      tertiary15: const Color(0xFF151517),
+      tile1: const Color(0xFF151517),
+      tile2: const Color(0xFF18191C),
+      tile3: const Color(0xFF18191C),
+      tile5: const Color(0xFF202226),
+      primaryButton1: const Color(0xFF202226),
+      primaryButton2: const Color(0xFFFAFAFA),
+      button1a: const Color(0xFFFAFAFA),
+      button1b: const Color(0xFF202226),
+      button2a: const Color(0xFFFAFAFA),
+      button2b: const Color(0xFF202226),
+      button2c: const Color(0xFF202226),
+      button2d: const Color(0xFF18191C),
+      button3a: const Color(0xFFFAFAFA),
+      button3b: const Color(0xFF5B82F9),
+      button5a: const Color(0xFF959595),
+      button5b: const Color(0xFF202226),
+      successPrimary1: const Color(0xFF43CD93),
+      success1: const Color(0xFF5B82F9),
+      success2: const Color(0xFF202226),
+      error: const Color(0xFFEB0A1E),
+      shadow: const Color.fromRGBO(0, 0, 0, 0.3),
+      outLine1: const Color(0xff575757),
+    );
+  }
+}

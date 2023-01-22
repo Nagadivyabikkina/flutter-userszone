@@ -1,0 +1,23 @@
+{
+  "emailAddress": "Email Address",
+  "@emailAddress": {
+    "description": "User email address"
+  },
+  "textUserName": "Name is required",
+  "textLogin": "Login",
+  "textCreateUser": "Create User",
+  "textLoginError": "Login Error",
+  "textCancel": "Cancel",
+  "textInvalidCredentials": "Enter valid username and password",
+  "textFullName": "Full Name",
+  "textContinue": "Continue",
+  "textSaveChanges": "Save Changes",
+  "textEnterValidEmail": "Enter valid email",
+  "textEmailIsRequired": "Email is required",
+  "textEnterFullName": "Enter Full Name",
+  "textUsers": "Users",
+  "textServerError": "It looks like there was an error on our end.",
+  "textPleaseTryAgain": "Please try again later.",
+  "textAbout": "About",
+  "textAboutFlutterDeveloper": "I love to solve problems using technology that improves user’s life on a major scale. Over the last several years, I have been developing and leading various mobile apps in different areas. More than just programming, I love to write technical articles. I have written many high-quality technical articles."
+}
